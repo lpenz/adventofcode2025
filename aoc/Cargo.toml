@@ -1,0 +1,11 @@
+[package]
+name = "aoc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+argh = "0.1.13"
+color-eyre = "0.6.5"
+humantime = "2.2.0"
+nom = "8.0.0"
+nom-language = "0.1.0"
