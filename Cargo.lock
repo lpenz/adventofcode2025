@@ -118,6 +118,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "day01"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "color-eyre",
+ "enumchar",
+ "nom",
+]
+
+[[package]]
+name = "enumchar"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a3fc4b69ace8376ad57c98f6b2226bea6d4e48f6c79f0d8e3a8b581f754cc0db"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "eyre"
 version = "0.6.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"

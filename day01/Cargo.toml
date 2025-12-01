@@ -1,0 +1,10 @@
+[package]
+name = "day01"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aoc = { path = "../aoc" }
+color-eyre = "0.6.5"
+enumchar = "0.1.2"
+nom = "8.0.0"
