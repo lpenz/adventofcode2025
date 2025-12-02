@@ -4,15 +4,6 @@
 
 use day02::*;
 
-fn digits_calc(num: Pid) -> u32 {
-    format!("{}", num).len() as u32
-}
-
-fn factor_calc(num: Pid) -> Pid {
-    let digits = digits_calc(num);
-    10_u64.pow(digits)
-}
-
 fn duplicate(halfnum: Pid) -> Pid {
     halfnum * factor_calc(halfnum) + halfnum
 }

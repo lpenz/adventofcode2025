@@ -45,3 +45,12 @@ fn test() -> Result<()> {
     assert_eq!(input.len(), 11);
     Ok(())
 }
+
+pub fn digits_calc(num: Pid) -> u32 {
+    format!("{}", num).len() as u32
+}
+
+pub fn factor_calc(num: Pid) -> Pid {
+    let digits = digits_calc(num);
+    10_u64.pow(digits)
+}
