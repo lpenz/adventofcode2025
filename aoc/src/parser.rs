@@ -28,7 +28,7 @@ pub type PResult<I, O, E = VerboseError<I>> = Result<(I, O), nom::Err<E>>;
 macro_rules! parse_with {
     ($parser:expr, $input:ident) => {{
         let result = all_consuming($parser).parse(&$input).finish();
-        Ok(result.map_err(|e| eyre!("error reading input: {:?}", e))?.1)
+        Ok(result.map_err(|e| eyre!("error reading input:\n{}", e))?.1)
     }};
 }
 
