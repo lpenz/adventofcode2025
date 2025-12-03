@@ -48,7 +48,7 @@ where
     }
 }
 
-pub fn digit1(input: &str) -> IResult<&str, u8> {
+pub fn digit1(input: &str) -> PResult<&str, u8> {
     digit1_one_of("0123456789")(input)
 }
 
