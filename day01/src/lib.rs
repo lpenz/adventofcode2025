@@ -18,7 +18,7 @@ R14
 L82
 ";
 
-#[derive(EnumChar, Debug, PartialEq, Eq)]
+#[derive(EnumChar, Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Rotation {
     #[char('L')]
     Left,
@@ -30,35 +30,27 @@ pub type Distance = i32;
 pub type Position = i32;
 
 pub mod parser {
-    use aoc::parser_nom::*;
+    use chumsky::prelude::*;
+
+    use color_eyre::eyre;
 
     use super::*;
 
-    fn rotation(input: &str) -> PResult<&str, Rotation> {
-        nom::error::context(
-            "cannot parse rotation",
-            map_res(character::one_of("LR"), Rotation::try_from),
-        )
-        .parse(input)
+    pub fn all<'src>()
+    -> impl Parser<'src, &'src str, Vec<(Rotation, Distance)>, extra::Err<Rich<'src, char>>> {
+        let rotation = just('L')
+            .to(Rotation::Left)
+            .or(just('R').to(Rotation::Right));
+        let distance = text::int(10).map(|s: &str| s.parse().unwrap());
+        let line = rotation.then(distance).then_ignore(just('\n'));
+        line.repeated().collect()
     }
 
-    fn distance(input: &str) -> PResult<&str, Distance> {
-        nom::error::context(
-            "cannot parse distance",
-            map_res(character::i32, i32::try_from),
-        )
-        .parse(input)
-    }
-
-    fn line(input: &str) -> PResult<&str, (Rotation, Distance)> {
-        let (input, rot) = rotation(input)?;
-        let (input, dist) = distance(input)?;
-        let (input, _) = character::newline(input)?;
-        Ok((input, (rot, dist)))
-    }
-
-    pub fn parse(input: &str) -> Result<Vec<(Rotation, Distance)>> {
-        aoc::parse_with!(multi::many1(line), input)
+    pub fn parse(input: &str) -> eyre::Result<Vec<(Rotation, Distance)>> {
+        all()
+            .parse(input)
+            .into_result()
+            .map_err(|errs| eyre!("parsing error {:?}", errs))
     }
 }
 
