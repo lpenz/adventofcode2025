@@ -7,3 +7,4 @@ edition = "2024"
 aoc = { path = "../aoc" }
 color-eyre = "0.6.5"
 nom = "8.0.0"
+range-set = "0.1.0"
