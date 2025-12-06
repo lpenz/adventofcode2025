@@ -24,11 +24,11 @@ pub mod parser {
     pub fn parse(input: &str) -> Result<Vec<u8>> {
         aoc::parse_with!(multi::many1(line), input)
     }
-}
 
-#[test]
-fn test() -> Result<()> {
-    let input = parser::parse(EXAMPLE)?;
-    assert_eq!(input.len(), 1);
-    Ok(())
+    #[test]
+    fn test() -> Result<()> {
+        let input = parse(crate::EXAMPLE)?;
+        assert_eq!(input.len(), 1);
+        Ok(())
+    }
 }
