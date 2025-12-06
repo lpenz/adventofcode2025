@@ -13,7 +13,7 @@ pub const EXAMPLE: &str = "987654321111111
 pub type Jolt = u64;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     use super::*;
 

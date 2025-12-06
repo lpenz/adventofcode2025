@@ -9,7 +9,7 @@ pub const EXAMPLE: &str = "11-22,95-115,998-1012,1188511880-1188511890,222220-22
 pub type Pid = u64;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     use super::*;
 

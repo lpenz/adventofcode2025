@@ -35,7 +35,7 @@ pub type Grid = sqrid::grid_create!(Sqrid, Cell);
 pub use sqrid::Dir;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     use super::*;
 

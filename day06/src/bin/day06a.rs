@@ -5,7 +5,7 @@
 use day06::*;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     fn num(input: &str) -> PResult<&str, i64> {
         let (input, _) = many0_spaces.parse(input)?;

@@ -21,7 +21,7 @@ pub type Num = i64;
 pub type Range = (Num, Num);
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     use super::*;
 

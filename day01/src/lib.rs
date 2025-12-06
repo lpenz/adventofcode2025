@@ -30,7 +30,7 @@ pub type Distance = i32;
 pub type Position = i32;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     use super::*;
 

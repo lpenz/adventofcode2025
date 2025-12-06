@@ -5,7 +5,7 @@
 use day06::*;
 
 pub mod parser {
-    use aoc::parser::*;
+    use aoc::parser_nom::*;
 
     fn flip(input: &str) -> String {
         let v0 = input

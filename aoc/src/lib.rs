@@ -19,7 +19,7 @@ pub use color_eyre::eyre::WrapErr;
 pub use color_eyre::eyre::eyre;
 
 #[macro_use]
-pub mod parser;
+pub mod parser_nom;
 
 /// Wrapper that adds Eq and Ord using Debug
 #[derive(Debug)]
