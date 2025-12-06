@@ -21,6 +21,9 @@ pub use color_eyre::eyre::eyre;
 #[macro_use]
 pub mod parser_nom;
 
+#[macro_use]
+pub mod parser_chumsky;
+
 /// Wrapper that adds Eq and Ord using Debug
 #[derive(Debug)]
 pub struct OrdWrapper<T>(pub T);

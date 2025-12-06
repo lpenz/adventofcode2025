@@ -30,6 +30,7 @@ pub type Distance = i32;
 pub type Position = i32;
 
 pub mod parser {
+    use aoc::parser_chumsky::*;
     use chumsky::prelude::*;
 
     use color_eyre::eyre;
@@ -47,10 +48,7 @@ pub mod parser {
     }
 
     pub fn parse(input: &str) -> eyre::Result<Vec<(Rotation, Distance)>> {
-        all()
-            .parse(input)
-            .into_result()
-            .map_err(|errs| eyre!("parsing error {:?}", errs))
+        aoc::parse_with_chumsky!(all(), input)
     }
 }
 
