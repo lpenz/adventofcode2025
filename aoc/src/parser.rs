@@ -32,8 +32,12 @@ macro_rules! parse_with {
     }};
 }
 
-pub fn space(input: &str) -> IResult<&str, &str> {
+pub fn space(input: &str) -> PResult<&str, &str> {
     tag(" ")(input)
+}
+
+pub fn many0_spaces(input: &str) -> PResult<&str, Vec<&str>> {
+    multi::many0(space).parse(input)
 }
 
 pub fn digit1_one_of<'a, E>(
