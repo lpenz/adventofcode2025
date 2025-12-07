@@ -34,6 +34,7 @@ pub enum Cell {
 }
 
 pub type Sqrid = sqrid::sqrid_create!(140, 141, true);
+// pub type Sqrid = sqrid::sqrid_create!(14, 15, true);
 pub type Pos = sqrid::pos_create!(Sqrid);
 pub type Grid = sqrid::grid_create!(Sqrid, Cell);
 pub use sqrid::Dir;
