@@ -1,0 +1,10 @@
+[package]
+name = "day07"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aoc = { path = "../aoc" }
+chumsky = "0.11.2"
+enumchar = "0.1.2"
+sqrid = "0.0.32"
