@@ -6,9 +6,9 @@ pub use aoc::*;
 
 #[derive(Debug, PartialOrd, Ord, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos {
-    x: i64,
-    y: i64,
-    z: i64,
+    pub x: i64,
+    pub y: i64,
+    pub z: i64,
 }
 
 pub fn distance2(a: &Pos, b: &Pos) -> i64 {
