@@ -253,6 +253,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "day08"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "chumsky",
+ "color-eyre",
+]
+
+[[package]]
 name = "enumchar"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
