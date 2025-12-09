@@ -9,41 +9,29 @@ pub const EXAMPLE: &str = "11-22,95-115,998-1012,1188511880-1188511890,222220-22
 pub type Pid = u64;
 
 pub mod parser {
-    use aoc::parser_nom::*;
+    use aoc::parser_chumsky::*;
+    use chumsky::prelude::*;
 
     use super::*;
 
-    fn pid(input: &str) -> PResult<&str, Pid> {
-        nom::error::context(
-            "cannot parse product ID",
-            map_res(character::u64, Pid::try_from),
-        )
-        .parse(input)
-    }
-
-    fn range(input: &str) -> PResult<&str, (Pid, Pid)> {
-        let (input, start) = context("err parsing start", pid).parse(input)?;
-        let (input, _) = character::char('-')(input)?;
-        let (input, end) = context("err parsing end", pid).parse(input)?;
-        Ok((input, (start, end)))
-    }
-
-    fn line(input: &str) -> PResult<&str, Vec<(Pid, Pid)>> {
-        let (input, ranges) = multi::separated_list1(tag(","), range).parse(input)?;
-        let (input, _) = character::newline(input)?;
-        Ok((input, ranges))
+    pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<(Pid, Pid)>, extra::Err<Rich<'src, char>>>
+    {
+        let num = text::int(10).from_str().unwrapped();
+        let range = num.then_ignore(just('-')).then(num);
+        let ranges = range.separated_by(just(',')).collect();
+        ranges.then_ignore(just('\n'))
     }
 
     pub fn parse(input: &str) -> Result<Vec<(Pid, Pid)>> {
-        aoc::parse_with!(line, input)
+        aoc::parse_with_chumsky!(all(), input)
     }
-}
 
-#[test]
-fn test() -> Result<()> {
-    let input = parser::parse(EXAMPLE)?;
-    assert_eq!(input.len(), 11);
-    Ok(())
+    #[test]
+    fn test() -> Result<()> {
+        let input = parser::parse(EXAMPLE)?;
+        assert_eq!(input.len(), 11);
+        Ok(())
+    }
 }
 
 pub fn digits_calc(num: Pid) -> u32 {

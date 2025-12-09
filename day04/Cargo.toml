@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 aoc = { path = "../aoc" }
+chumsky = "0.11.2"
 color-eyre = "0.6.5"
 enumchar = "0.1.2"
-nom = "8.0.0"
 sqrid = "0.0.32"

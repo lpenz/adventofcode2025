@@ -45,18 +45,8 @@ pub mod parser {
 
     use super::*;
 
-    pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<Vec<Cell>>, extra::Err<Rich<'src, char>>>
-    {
-        let cell = just('.')
-            .to(Cell::Empty)
-            .or(just('^').to(Cell::Splitter))
-            .or(just('S').to(Cell::Start));
-        let line = cell.repeated().collect().then_ignore(just('\n'));
-        line.repeated().collect::<Vec<Vec<Cell>>>()
-    }
-
     pub fn parse(input: &str) -> Result<Grid> {
-        let vecvec = aoc::parse_with_chumsky!(all(), input)?;
+        let vecvec = aoc::parse_with_chumsky!(vecvec(".^S"), input)?;
         let mut g = Grid::default();
         g.extend_from_vecvec(vecvec)?;
         Ok(g)

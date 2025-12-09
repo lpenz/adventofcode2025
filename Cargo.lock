@@ -199,8 +199,8 @@ name = "day02"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "chumsky",
  "color-eyre",
- "nom",
 ]
 
 [[package]]
@@ -208,8 +208,8 @@ name = "day03"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "chumsky",
  "color-eyre",
- "nom",
 ]
 
 [[package]]
@@ -217,9 +217,9 @@ name = "day04"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "chumsky",
  "color-eyre",
  "enumchar",
- "nom",
  "sqrid",
 ]
 
@@ -228,8 +228,8 @@ name = "day05"
 version = "0.1.0"
 dependencies = [
  "aoc",
+ "chumsky",
  "color-eyre",
- "nom",
  "range-set",
 ]
 

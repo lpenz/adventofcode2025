@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 
 pub use color_eyre::Result;
+pub use color_eyre::eyre::eyre;
 
 use chumsky::prelude::*;
 
@@ -42,4 +43,27 @@ macro_rules! parse_with_chumsky {
             }
         }
     }};
+}
+
+pub fn digit1<'src>() -> impl Parser<'src, &'src str, u8, extra::Err<Rich<'src, char>>> {
+    one_of("0123456789").try_map(|c: char, span| {
+        c.to_digit(10)
+            .map(|d| d as u8)
+            // Impossible error, mostly here as an example:
+            .ok_or_else(|| Rich::custom(span, eyre!("invalid digit")))
+    })
+}
+
+pub fn vecvec<'src, Cell>(
+    chars: &'src str,
+) -> impl Parser<'src, &'src str, Vec<Vec<Cell>>, extra::Err<Rich<'src, char>>>
+where
+    Cell: TryFrom<char>,
+    <Cell as std::convert::TryFrom<char>>::Error: std::fmt::Display,
+{
+    let cell = one_of(chars).try_map(|c: char, span| {
+        Cell::try_from(c).map_err(|e| Rich::custom(span, eyre!("error parsing cell {}: {}", c, e)))
+    });
+    let line = cell.repeated().collect().then_ignore(just('\n'));
+    line.repeated().collect::<Vec<Vec<Cell>>>()
 }

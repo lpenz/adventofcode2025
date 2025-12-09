@@ -13,24 +13,26 @@ pub const EXAMPLE: &str = "987654321111111
 pub type Jolt = u64;
 
 pub mod parser {
-    use aoc::parser_nom::*;
+    use aoc::parser_chumsky::*;
+    use chumsky::prelude::*;
 
     use super::*;
 
-    fn line(input: &str) -> PResult<&str, Vec<Jolt>> {
-        let (input, digits) = multi::many0(map_res(digit1, Jolt::try_from)).parse(input)?;
-        let (input, _) = character::newline(input)?;
-        Ok((input, digits))
+    pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<Vec<Jolt>>, extra::Err<Rich<'src, char>>>
+    {
+        let num = digit1().map(u64::from);
+        let line = num.repeated().collect().then_ignore(just('\n'));
+        line.repeated().collect()
     }
 
     pub fn parse(input: &str) -> Result<Vec<Vec<Jolt>>> {
-        aoc::parse_with!(multi::many1(line), input)
+        aoc::parse_with_chumsky!(all(), input)
     }
-}
 
-#[test]
-fn test() -> Result<()> {
-    let input = parser::parse(EXAMPLE)?;
-    assert_eq!(input.len(), 4);
-    Ok(())
+    #[test]
+    fn test() -> Result<()> {
+        let input = parser::parse(EXAMPLE)?;
+        assert_eq!(input.len(), 4);
+        Ok(())
+    }
 }
