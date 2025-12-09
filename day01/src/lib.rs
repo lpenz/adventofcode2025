@@ -48,7 +48,7 @@ pub mod parser {
     }
 
     pub fn parse(input: &str) -> eyre::Result<Vec<(Rotation, Distance)>> {
-        aoc::parse_with_chumsky!(all(), input)
+        chumsky_parse(input, all())
     }
 }
 

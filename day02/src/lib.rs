@@ -14,15 +14,11 @@ pub mod parser {
 
     use super::*;
 
-    pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<(Pid, Pid)>, extra::Err<Rich<'src, char>>>
-    {
+    pub fn parse(input: &str) -> Result<Vec<(Pid, Pid)>> {
         let range = number().then_ignore(just('-')).then(number());
         let ranges = range.separated_by(just(',')).collect();
-        ranges.then_ignore(just('\n'))
-    }
-
-    pub fn parse(input: &str) -> Result<Vec<(Pid, Pid)>> {
-        aoc::parse_with_chumsky!(all(), input)
+        let all = ranges.then_ignore(just('\n'));
+        chumsky_parse(input, all)
     }
 
     #[test]

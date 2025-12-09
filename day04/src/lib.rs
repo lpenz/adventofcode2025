@@ -36,12 +36,11 @@ pub use sqrid::Dir;
 
 pub mod parser {
     use aoc::parser_chumsky::*;
-    use chumsky::prelude::*;
 
     use super::*;
 
     pub fn parse(input: &str) -> Result<Grid> {
-        let vecvec = aoc::parse_with_chumsky!(vecvec(".@"), input)?;
+        let vecvec = chumsky_parse(input, vecvec(".@"))?;
         let mut g = Grid::default();
         g.extend_from_vecvec(vecvec)?;
         Ok(g)

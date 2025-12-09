@@ -26,7 +26,7 @@ pub mod parser {
     }
 
     pub fn parse(input: &str) -> Result<Vec<Vec<Jolt>>> {
-        aoc::parse_with_chumsky!(all(), input)
+        chumsky_parse(input, all())
     }
 
     #[test]

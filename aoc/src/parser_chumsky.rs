@@ -32,17 +32,17 @@ pub fn eprint_rich_error<'a>(src: &'a str, errs: &'a [Rich<'a, char>]) -> Result
     Ok(())
 }
 
-#[macro_export]
-macro_rules! parse_with_chumsky {
-    ($parser:expr, $input:ident) => {{
-        match $parser.parse($input).into_result() {
-            Ok(v) => Ok(v),
-            Err(e) => {
-                eprint_rich_error($input, &e)?;
-                Err(eyre!("parsing error {:?}", &e))
-            }
+pub fn chumsky_parse<'src, P, R>(input: &'src str, parser: P) -> Result<R>
+where
+    P: Parser<'src, &'src str, R, extra::Err<Rich<'src, char>>>,
+{
+    match parser.parse(input).into_result() {
+        Ok(v) => Ok(v),
+        Err(e) => {
+            eprint_rich_error(input, &e)?;
+            Err(eyre!("parsing error {:?}", &e))
         }
-    }};
+    }
 }
 
 pub fn digit1<'src>() -> impl Parser<'src, &'src str, u8, extra::Err<Rich<'src, char>>> {

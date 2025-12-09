@@ -18,7 +18,7 @@ pub mod parser {
     }
 
     pub fn parse(input: &str) -> Result<Vec<u8>> {
-        aoc::parse_with_chumsky!(all(), input)
+        chumsky_parse(input, all())
     }
 
     #[test]

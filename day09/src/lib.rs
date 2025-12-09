@@ -36,7 +36,7 @@ pub mod parser {
     }
 
     pub fn parse(input: &str) -> Result<Vec<Pos>> {
-        aoc::parse_with_chumsky!(all(), input)
+        chumsky_parse(input, all())
     }
 
     #[test]
