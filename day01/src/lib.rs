@@ -42,7 +42,7 @@ pub mod parser {
         let rotation = just('L')
             .to(Rotation::Left)
             .or(just('R').to(Rotation::Right));
-        let distance = text::int(10).map(|s: &str| s.parse().unwrap());
+        let distance = number();
         let line = rotation.then(distance).then_ignore(just('\n'));
         line.repeated().collect()
     }

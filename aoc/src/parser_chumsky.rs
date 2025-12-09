@@ -54,6 +54,16 @@ pub fn digit1<'src>() -> impl Parser<'src, &'src str, u8, extra::Err<Rich<'src, 
     })
 }
 
+pub fn number<'src, Num>() -> impl Parser<'src, &'src str, Num, extra::Err<Rich<'src, char>>>
+where
+    Num: std::str::FromStr,
+    <Num as std::str::FromStr>::Err: std::fmt::Display,
+{
+    text::int(10).try_map(|s: &str, span| {
+        Num::from_str(s).map_err(|e| Rich::custom(span, eyre!("error parsing number {}: {}", s, e)))
+    })
+}
+
 pub fn vecvec<'src, Cell>(
     chars: &'src str,
 ) -> impl Parser<'src, &'src str, Vec<Vec<Cell>>, extra::Err<Rich<'src, char>>>

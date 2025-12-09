@@ -28,9 +28,11 @@ pub mod parser {
 
     pub fn all<'src>()
     -> impl Parser<'src, &'src str, (Vec<Range>, Vec<Num>), extra::Err<Rich<'src, char>>> {
-        let num = text::int(10).from_str().unwrapped();
-        let numline = num.then_ignore(just('\n'));
-        let rangeline = num.then_ignore(just('-')).then(num).then_ignore(just('\n'));
+        let numline = number().then_ignore(just('\n'));
+        let rangeline = number()
+            .then_ignore(just('-'))
+            .then(number())
+            .then_ignore(just('\n'));
         rangeline
             .repeated()
             .collect()

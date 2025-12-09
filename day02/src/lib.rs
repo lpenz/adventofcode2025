@@ -16,8 +16,7 @@ pub mod parser {
 
     pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<(Pid, Pid)>, extra::Err<Rich<'src, char>>>
     {
-        let num = text::int(10).from_str().unwrapped();
-        let range = num.then_ignore(just('-')).then(num);
+        let range = number().then_ignore(just('-')).then(number());
         let ranges = range.separated_by(just(',')).collect();
         ranges.then_ignore(just('\n'))
     }

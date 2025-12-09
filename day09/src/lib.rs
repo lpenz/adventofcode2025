@@ -27,10 +27,9 @@ pub mod parser {
     use super::*;
 
     pub fn all<'src>() -> impl Parser<'src, &'src str, Vec<Pos>, extra::Err<Rich<'src, char>>> {
-        let num = text::int(10).from_str().unwrapped();
-        let line = num
+        let line = number()
             .then_ignore(just(','))
-            .then(num)
+            .then(number())
             .map(|(x, y)| Pos { x, y })
             .then_ignore(just('\n'));
         line.repeated().collect()
