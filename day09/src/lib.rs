@@ -14,7 +14,7 @@ pub const EXAMPLE: &str = "7,1
 7,3
 ";
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone)]
 pub struct Pos {
     pub x: i64,
     pub y: i64,
@@ -46,4 +46,10 @@ pub mod parser {
         assert_eq!(input.len(), 8);
         Ok(())
     }
+}
+
+pub fn area(a: &Pos, b: &Pos) -> i64 {
+    let dx = 1 + if a.x > b.x { a.x - b.x } else { b.x - a.x };
+    let dy = 1 + if a.y > b.y { a.y - b.y } else { b.y - a.y };
+    dx * dy
 }

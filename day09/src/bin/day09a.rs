@@ -4,12 +4,6 @@
 
 use day09::*;
 
-pub fn area(a: &Pos, b: &Pos) -> i64 {
-    let dx = 1 + if a.x > b.x { a.x - b.x } else { b.x - a.x };
-    let dy = 1 + if a.y > b.y { a.y - b.y } else { b.y - a.y };
-    dx * dy
-}
-
 fn process(input: &str) -> Result<i64> {
     let input = parser::parse(input)?;
     Ok(input
