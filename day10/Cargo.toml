@@ -8,3 +8,4 @@ aoc = { path = "../aoc" }
 color-eyre = "0.6.5"
 chumsky = "0.11.2"
 enumchar = "0.1.2"
+z3 = "0.19.6"

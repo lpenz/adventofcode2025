@@ -60,13 +60,42 @@ impl Lights {
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Button(pub Vec<usize>);
 
+#[derive(Debug, Eq, PartialEq, Clone, Hash)]
+pub struct Jolts(pub Vec<usize>);
+
+impl Jolts {
+    pub fn new(size: usize) -> Jolts {
+        Jolts(vec![0; size])
+    }
+
+    pub fn press(&mut self, button: &Button) {
+        for &i in &button.0 {
+            self.0[i] += 1;
+        }
+    }
+
+    pub fn new_pressed(&self, button: &Button) -> Jolts {
+        let mut jolts = self.clone();
+        jolts.press(button);
+        jolts
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+
 pub mod parser {
     use aoc::parser_chumsky::*;
     use chumsky::prelude::*;
 
     use super::*;
 
-    type Line = (Lights, Vec<Button>, Vec<usize>);
+    type Line = (Lights, Vec<Button>, Jolts);
 
     pub fn parse(input: &str) -> Result<Vec<Line>> {
         let lights = just('[')
@@ -78,7 +107,7 @@ pub mod parser {
             .then_ignore(just(')'))
             .then_ignore(just(' '));
         let joltage = just('{')
-            .ignore_then(number().separated_by(just(',')).collect())
+            .ignore_then(number().separated_by(just(',')).collect().map(Jolts))
             .then_ignore(just('}'))
             .then_ignore(just('\n'));
         let line = lights

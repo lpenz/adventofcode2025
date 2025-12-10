@@ -1,4 +1,4 @@
-![AoC](https://img.shields.io/badge/AoC%20%E2%AD%90-19-yellow)
+![AoC](https://img.shields.io/badge/AoC%20%E2%AD%90-20-yellow)
 [![CI](https://github.com/lpenz/adventofcode2025/workflows/CI/badge.svg)](https://github.com/lpenz/adventofcode2025/actions)
 [![coveralls](https://coveralls.io/repos/github/lpenz/adventofcode2025/badge.svg?branch=main)](https://coveralls.io/github/lpenz/adventofcode2025?branch=main)
 
@@ -9,6 +9,7 @@ Rust template for the advent of code puzzles at https://adventofcode.com/
 ## Noteworthy days (spoiler alert!)
 
 - Day 05: numeric range sets.
+- Day 10b: z3 with optimization.
 
 
 <table><tr>
