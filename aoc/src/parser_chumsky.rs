@@ -64,6 +64,18 @@ where
     })
 }
 
+pub fn enum_char<'src, E>(
+    chars: &'src str,
+) -> impl Parser<'src, &'src str, E, extra::Err<Rich<'src, char>>>
+where
+    E: TryFrom<char>,
+    <E as std::convert::TryFrom<char>>::Error: std::fmt::Display,
+{
+    one_of(chars).try_map(|c: char, span| {
+        E::try_from(c).map_err(|e| Rich::custom(span, eyre!("error parsing cell {}: {}", c, e)))
+    })
+}
+
 pub fn vecvec<'src, Cell>(
     chars: &'src str,
 ) -> impl Parser<'src, &'src str, Vec<Vec<Cell>>, extra::Err<Rich<'src, char>>>
@@ -71,9 +83,7 @@ where
     Cell: TryFrom<char>,
     <Cell as std::convert::TryFrom<char>>::Error: std::fmt::Display,
 {
-    let cell = one_of(chars).try_map(|c: char, span| {
-        Cell::try_from(c).map_err(|e| Rich::custom(span, eyre!("error parsing cell {}: {}", c, e)))
-    });
+    let cell = enum_char(chars);
     let line = cell.repeated().collect().then_ignore(just('\n'));
     line.repeated().collect::<Vec<Vec<Cell>>>()
 }
