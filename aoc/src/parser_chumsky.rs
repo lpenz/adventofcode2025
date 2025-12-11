@@ -6,6 +6,7 @@ pub use color_eyre::Result;
 pub use color_eyre::eyre::eyre;
 
 use chumsky::prelude::*;
+use chumsky::span::Span;
 
 use ariadne::Color;
 use ariadne::Label;
@@ -74,6 +75,20 @@ where
     one_of(chars).try_map(|c: char, span| {
         E::try_from(c).map_err(|e| Rich::custom(span, eyre!("error parsing cell {}: {}", c, e)))
     })
+}
+
+pub fn do_parse<'src, O, Str, S>(
+    s: Str,
+    span: S,
+) -> std::result::Result<O, chumsky::error::Rich<'src, char, S>>
+where
+    Str: AsRef<str>,
+    O: std::str::FromStr,
+    <O as std::str::FromStr>::Err: std::fmt::Display,
+    S: chumsky::span::Span,
+{
+    O::from_str(s.as_ref())
+        .map_err(|e| Rich::custom(span, eyre!("error parsing string {}: {}", s.as_ref(), e)))
 }
 
 pub fn vecvec<'src, Cell>(

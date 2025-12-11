@@ -2,6 +2,8 @@
 // This file is subject to the terms and conditions defined in
 // file 'LICENSE', which is part of this source code package.
 
+use std::str::FromStr;
+
 use tinystr::TinyAsciiStr;
 
 pub use aoc::*;
@@ -36,9 +38,9 @@ hhh: out
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Node(pub TinyAsciiStr<3>);
 
-impl TryFrom<&str> for Node {
-    type Error = Report;
-    fn try_from(s: &str) -> Result<Self, Self::Error> {
+impl FromStr for Node {
+    type Err = Report;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(Self(
             s.parse().wrap_err("could not convert to TinyAsciiStr")?,
         ))
@@ -56,7 +58,7 @@ pub mod parser {
             .repeated()
             .exactly(3)
             .collect::<String>()
-            .map(|s| Node(s.parse::<TinyAsciiStr<3>>().unwrap()));
+            .try_map(do_parse);
         chumsky_parse(
             input,
             node.then_ignore(just(": "))

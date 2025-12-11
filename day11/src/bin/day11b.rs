@@ -3,6 +3,7 @@
 // file 'LICENSE', which is part of this source code package.
 
 use std::collections::HashMap;
+use std::str::FromStr;
 
 use cached::SizedCache;
 use cached::proc_macro::cached;
@@ -29,9 +30,9 @@ fn dfs(graph: &Graph, node: &Node, dst: &Node) -> usize {
 fn process(input: &str) -> Result<usize> {
     let input = parser::parse(input)?;
     let graph = input.into_iter().collect::<HashMap<Node, Vec<Node>>>();
-    let fft_paths = dfs(&graph, &Node::try_from("svr")?, &Node::try_from("fft")?);
-    let dac_paths = dfs(&graph, &Node::try_from("fft")?, &Node::try_from("dac")?);
-    let out_paths = dfs(&graph, &Node::try_from("dac")?, &Node::try_from("out")?);
+    let fft_paths = dfs(&graph, &Node::from_str("svr")?, &Node::from_str("fft")?);
+    let dac_paths = dfs(&graph, &Node::from_str("fft")?, &Node::from_str("dac")?);
+    let out_paths = dfs(&graph, &Node::from_str("dac")?, &Node::from_str("out")?);
     Ok(dac_paths * fft_paths * out_paths)
 }
 
