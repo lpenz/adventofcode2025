@@ -6,7 +6,7 @@ use tinystr::TinyAsciiStr;
 
 pub use aoc::*;
 
-pub const EXAMPLE: &str = "aaa: you hhh
+pub const EXAMPLE1: &str = "aaa: you hhh
 you: bbb ccc
 bbb: ddd eee
 ccc: ddd eee fff
@@ -18,8 +18,32 @@ hhh: ccc fff iii
 iii: out
 ";
 
+pub const EXAMPLE2: &str = "svr: aaa bbb
+aaa: fft
+fft: ccc
+bbb: tty
+tty: ccc
+ccc: ddd eee
+ddd: hub
+hub: fff
+eee: dac
+dac: fff
+fff: ggg hhh
+ggg: out
+hhh: out
+";
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Node(pub TinyAsciiStr<3>);
+
+impl TryFrom<&str> for Node {
+    type Error = Report;
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        Ok(Self(
+            s.parse().wrap_err("could not convert to TinyAsciiStr")?,
+        ))
+    }
+}
 
 pub mod parser {
     use aoc::parser_chumsky::*;
@@ -44,9 +68,16 @@ pub mod parser {
     }
 
     #[test]
-    fn test() -> Result<()> {
-        let input = parse(crate::EXAMPLE)?;
+    fn test1() -> Result<()> {
+        let input = parse(crate::EXAMPLE1)?;
         assert_eq!(input.len(), 10);
+        Ok(())
+    }
+
+    #[test]
+    fn test2() -> Result<()> {
+        let input = parse(crate::EXAMPLE2)?;
+        assert_eq!(input.len(), 13);
         Ok(())
     }
 }

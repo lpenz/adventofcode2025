@@ -31,7 +31,7 @@ fn process(input: &str) -> Result<usize> {
 
 #[test]
 fn test() -> Result<()> {
-    assert_eq!(process(EXAMPLE)?, 5);
+    assert_eq!(process(EXAMPLE1)?, 5);
     Ok(())
 }
 
