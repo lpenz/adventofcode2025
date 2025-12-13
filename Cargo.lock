@@ -423,6 +423,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "day12"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "chumsky",
+ "color-eyre",
+ "enumchar",
+ "sqrid",
+]
+
+[[package]]
 name = "displaydoc"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -897,9 +908,9 @@ checksum = "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03"
 
 [[package]]
 name = "sqrid"
-version = "0.0.32"
+version = "0.0.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f48d40724dcedd703668da23c432db8653d4e1cbed1b0f5f6ad45b14f5bd84be"
+checksum = "b6824525048f92901254a1dfa0a00ddb2453d141652357ab42d1f6bf3b7d7a9f"
 
 [[package]]
 name = "stacker"
