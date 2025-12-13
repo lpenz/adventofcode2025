@@ -17,8 +17,16 @@ pub fn eprint_rich_error<'a>(src: &'a str, errs: &'a [Rich<'a, char>]) -> Result
     let filename = String::new();
     let mut builder = Report::build(ReportKind::Error, (filename.clone(), 0..0))
         .with_message(errs[0].to_string());
+    let mut start = usize::MAX;
+    let mut end = 0_usize;
     for err in errs {
         let span = err.span(); // Range<usize>
+        if span.start() < start {
+            start = span.start() - 1;
+        }
+        if span.end() > end {
+            end = span.end() + 1;
+        }
         let spanrange = span.start()..span.end();
         let reason = err.reason(); // RichReason
         builder = builder.with_label(
@@ -27,6 +35,11 @@ pub fn eprint_rich_error<'a>(src: &'a str, errs: &'a [Rich<'a, char>]) -> Result
                 .with_color(Color::Red),
         );
     }
+    builder = builder.with_label(
+        Label::new((filename.clone(), (start..end)))
+            .with_message("error region")
+            .with_color(Color::Cyan),
+    );
     builder
         .finish()
         .print((filename, ariadne::Source::from(src)))?;
@@ -73,7 +86,8 @@ where
     <E as std::convert::TryFrom<char>>::Error: std::fmt::Display,
 {
     one_of(chars).try_map(|c: char, span| {
-        E::try_from(c).map_err(|e| Rich::custom(span, eyre!("error parsing cell {}: {}", c, e)))
+        E::try_from(c)
+            .map_err(|e| Rich::custom(span, eyre!("error parsing enum char {}: {}", c, e)))
     })
 }
 
@@ -99,6 +113,10 @@ where
     <Cell as std::convert::TryFrom<char>>::Error: std::fmt::Display,
 {
     let cell = enum_char(chars);
-    let line = cell.repeated().collect().then_ignore(just('\n'));
+    let line = cell
+        .repeated()
+        .at_least(1)
+        .collect()
+        .then_ignore(just('\n'));
     line.repeated().collect::<Vec<Vec<Cell>>>()
 }
